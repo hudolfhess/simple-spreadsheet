@@ -1,0 +1,68 @@
+version: "3.8"
+
+services:
+  # Next.js Application
+  nextjs-app:
+    build:
+      context: . # Looks for Dockerfile in the current directory
+      dockerfile: Dockerfile
+      # You can pass build arguments to Dockerfile if needed:
+      # args:
+      #   NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL_FROM_ENV}
+    container_name: app
+    ports:
+      - "3000:3000" # Map host port 3000 to container port 3000
+    # environment:
+    # NODE_ENV is already set to production in Dockerfile
+    # Database connection strings
+    # DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres_db:5432/${POSTGRES_DB}"
+    # MONGODB_URI: "mongodb://${MONGO_ROOT_USER}:${MONGO_ROOT_PASSWORD}@mongo_db:27017/${MONGO_DATABASE}?authSource=admin&directConnection=true"
+    # Add any other runtime environment variables your Next.js app needs
+    # Example: API_KEY: ${MY_API_KEY}
+    # Note: NEXT_PUBLIC_* variables are build-time variables and should be passed via 'args' in the build section if not hardcoded,
+    # or your app needs to be configured to read them at runtime if that's your pattern.
+    # depends_on:
+    #   - postgres_db
+    #   - mongo_db
+    restart: unless-stopped
+    # --- For Development (uncomment and adjust as needed) ---
+    # command: npm run dev # Override CMD in Dockerfile for development
+    # volumes:
+    #   - .:/app # Mount your project directory to /app in container
+    #   - /app/node_modules # Exclude node_modules from being overwritten by host
+    #   - /app/.next # Exclude .next from being overwritten by host
+    # environment:
+    #   NODE_ENV: development
+
+  # PostgreSQL Database
+  # postgres_db:
+  #   image: postgres:15-alpine # Using a specific version is good practice
+  #   container_name: postgres_db
+  #   environment:
+  #     POSTGRES_USER: ${POSTGRES_USER:-dbuser} # Use .env variable or default to 'dbuser'
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dbpassword}
+  #     POSTGRES_DB: ${POSTGRES_DB:-mydb}
+  #   volumes:
+  #     - pgdata:/var/lib/postgresql/data # Persist data
+  #   ports:
+  #     - "5432:5432" # Expose PostgreSQL port to host (optional, for external tools)
+  #   restart: always
+
+  # # MongoDB Database
+  # mongo_db:
+  #   image: mongo:6-jammy # Using a specific version is good practice
+  #   container_name: mongo_db
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER:-mongoadmin}
+  #     MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:-mongopass}
+  #     MONGO_INITDB_DATABASE: ${MONGO_DATABASE:-mymongodb} # This db will be created
+  #   volumes:
+  #     - mongodata:/data/db # Persist data
+  #     # You can add an init script here if needed:
+  #     # - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+  #   ports:
+  #     - "27017:27017" # Expose MongoDB port to host (optional, for external tools)
+  #   restart: always
+# volumes:
+#   pgdata: # Named volume for PostgreSQL data
+#   mongodata: # Named volume for MongoDB data
