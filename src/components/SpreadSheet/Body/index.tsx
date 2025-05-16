@@ -1,9 +1,10 @@
 import Row from "../Row";
+import { SpreadSheetEntity } from "../entities/spreadsheet";
 
 export default function Body(props: {
   rows: number;
   columns: number;
-  data: object;
+  data: SpreadSheetEntity;
   handleOnCellChange: (row: number, column: number, value: string) => void;
 }) {
   const rows = [];

@@ -1,7 +1,8 @@
 import Cell from "../Cell";
+import { CellEntity } from "../entities/cell";
 
 export default function Row(props: {
-  data: object;
+  data: { [column: number]: CellEntity };
   columns: number;
   row: number;
   handleOnCellChange: (row: number, column: number, value: string) => void;
@@ -18,7 +19,7 @@ export default function Row(props: {
     let value = "";
     let formula = "";
     if (props.data !== undefined && props.data[i]) {
-      value = props.data[i]["value"];
+      value = props.data[i]["value"].toString();
       formula = props.data[i]["formula"];
     }
 

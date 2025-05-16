@@ -2,7 +2,7 @@ import { SpreadSheetEntity } from "./spreadsheet";
 const COLUMNS_NAMES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 export interface CellEntity {
-  value: string | number;
+  value: string;
   formula: string;
   type?: string;
   referencesTo?: number[][];
@@ -21,7 +21,7 @@ export function getCellDataFrom(
   if (isFormula(value)) {
     currentCell.formula = value;
     const operationData = extractFormulaFromCell(currentCell, data);
-    currentCell.value = executeAllOperations(operationData.values);
+    currentCell.value = executeAllOperations(operationData.values).toString();
     currentCell.referencesTo = operationData.referencesTo;
   }
 

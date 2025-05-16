@@ -10,14 +10,12 @@ export default function Cell(props: {
   const [editionMode, setEditionMode] = useState(false);
   const [selected, setSelected] = useState(false);
   const [value, setValue] = useState(props.value);
-  const [formula, setFormula] = useState(props.formula);
   const [editValue, setEditValue] = useState(props.value);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setValue(props.value);
-    setFormula(props.formula);
-  }, [props.value, props.formula]);
+  }, [props.value]);
 
   useEffect(() => {
     if (editionMode === true) {
@@ -44,9 +42,9 @@ export default function Cell(props: {
     setSelected(false);
   };
 
-  const handleKeyDown = (e: KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      props.handleOnCellChange(props.row, props.column, e.target.value);
+      props.handleOnCellChange(props.row, props.column, e.currentTarget.value);
       setEditionMode(false);
     } else if (e.key === "Escape") {
       setValue(props.value);
