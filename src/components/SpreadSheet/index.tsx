@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Header from "./Header";
 import Body from "./Body";
-import { updateSpreadSheetData } from "./entities/spreadsheet";
+import { updateSpreadSheetData } from "./entities/spreadsheet_content";
 import { getSpreadSheetById } from "@/http_clients/spreadsheets";
 import "./styles.css";
 

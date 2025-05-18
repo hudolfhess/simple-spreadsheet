@@ -1,4 +1,4 @@
-import { SpreadSheetEntity } from "./spreadsheet";
+import { SpreadSheetContentEntity } from "./spreadsheet_content";
 const COLUMNS_NAMES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 export interface CellEntity {
@@ -13,7 +13,7 @@ export function getCellDataFrom(
   row: number,
   column: number,
   value: string,
-  data: SpreadSheetEntity
+  data: SpreadSheetContentEntity
 ): CellEntity {
   const currentCell = extractCurrentCell(row, column, data);
   currentCell.value = value;
@@ -37,7 +37,7 @@ export function getCellDataFrom(
 function extractCurrentCell(
   row: number,
   column: number,
-  data: SpreadSheetEntity
+  data: SpreadSheetContentEntity
 ): CellEntity {
   if (data[row] && data[row][column]) {
     return data[row][column];
@@ -55,7 +55,7 @@ function isFormula(value: string): boolean {
 
 function extractFormulaFromCell(
   cell: CellEntity,
-  data: SpreadSheetEntity
+  data: SpreadSheetContentEntity
 ): { values: string[]; referencesTo: number[][] } {
   const re = /(([A-Z]{1,})?([0-9\.]{1,}))([+\*\/\-])?/g;
   const groups = cell.formula.matchAll(re);

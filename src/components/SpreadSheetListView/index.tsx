@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { getAllSpreadSheets } from "@/http_clients/spreadsheets";
+import { SpreadSheetEntity } from "@/components/SpreadSheet/entities/spreadsheet";
 import "./styles.css";
 
 export default function SpreadSheetListView() {
-  const [spreadsheets, setSpreadsheets] = useState([]);
+  const [spreadsheets, setSpreadsheets] = useState([] as SpreadSheetEntity[]);
 
   useEffect(() => {
     getAllSpreadSheets().then(setSpreadsheets);
