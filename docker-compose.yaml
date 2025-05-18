@@ -12,41 +12,33 @@ services:
     container_name: app
     ports:
       - "3000:3000" # Map host port 3000 to container port 3000
-    # environment:
-    # NODE_ENV is already set to production in Dockerfile
-    # Database connection strings
-    # DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres_db:5432/${POSTGRES_DB}"
+    environment:
+      NODE_ENV: development
+      POSTGRES_DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres_db:5432/${POSTGRES_DB}"
     # MONGODB_URI: "mongodb://${MONGO_ROOT_USER}:${MONGO_ROOT_PASSWORD}@mongo_db:27017/${MONGO_DATABASE}?authSource=admin&directConnection=true"
-    # Add any other runtime environment variables your Next.js app needs
-    # Example: API_KEY: ${MY_API_KEY}
-    # Note: NEXT_PUBLIC_* variables are build-time variables and should be passed via 'args' in the build section if not hardcoded,
-    # or your app needs to be configured to read them at runtime if that's your pattern.
-    # depends_on:
-    #   - postgres_db
+    depends_on:
+      - postgres_db
     #   - mongo_db
     restart: unless-stopped
-    # --- For Development (uncomment and adjust as needed) ---
-    # command: npm run dev # Override CMD in Dockerfile for development
-    # volumes:
-    #   - .:/app # Mount your project directory to /app in container
-    #   - /app/node_modules # Exclude node_modules from being overwritten by host
-    #   - /app/.next # Exclude .next from being overwritten by host
-    # environment:
-    #   NODE_ENV: development
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
 
   # PostgreSQL Database
-  # postgres_db:
-  #   image: postgres:15-alpine # Using a specific version is good practice
-  #   container_name: postgres_db
-  #   environment:
-  #     POSTGRES_USER: ${POSTGRES_USER:-dbuser} # Use .env variable or default to 'dbuser'
-  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dbpassword}
-  #     POSTGRES_DB: ${POSTGRES_DB:-mydb}
-  #   volumes:
-  #     - pgdata:/var/lib/postgresql/data # Persist data
-  #   ports:
-  #     - "5432:5432" # Expose PostgreSQL port to host (optional, for external tools)
-  #   restart: always
+  postgres_db:
+    image: postgres:15-alpine
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
 
   # # MongoDB Database
   # mongo_db:
@@ -63,6 +55,6 @@ services:
   #   ports:
   #     - "27017:27017" # Expose MongoDB port to host (optional, for external tools)
   #   restart: always
-# volumes:
-#   pgdata: # Named volume for PostgreSQL data
+volumes:
+  pgdata: # Named volume for PostgreSQL data
 #   mongodata: # Named volume for MongoDB data
