@@ -10,7 +10,7 @@ export default function SpreadSheet(props: { columns: number; rows: number }) {
   const [data, setData] = useState({});
 
   useEffect(() => {
-    fetch("/api/spreadsheets")
+    fetch("/api/spreadsheets/dummyid")
       .then((res) => res.json())
       .then(setData);
   }, []);
