@@ -4,15 +4,18 @@ import { useState, useEffect } from "react";
 import Header from "./Header";
 import Body from "./Body";
 import { updateSpreadSheetData } from "./entities/spreadsheet";
+import { getSpreadSheetById } from "@/http_clients/spreadsheets";
 import "./styles.css";
 
-export default function SpreadSheet(props: { columns: number; rows: number }) {
+export default function SpreadSheet(props: {
+  id: string;
+  columns: number;
+  rows: number;
+}) {
   const [data, setData] = useState({});
 
   useEffect(() => {
-    fetch("/api/spreadsheets/dummyid")
-      .then((res) => res.json())
-      .then(setData);
+    getSpreadSheetById(props.id).then(setData);
   }, []);
 
   const handleOnCellChange = function (
