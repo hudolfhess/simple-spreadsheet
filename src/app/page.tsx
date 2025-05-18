@@ -1,7 +1,12 @@
 "use client";
 
-import SpreadSheet from "../components/SpreadSheet";
-
 export default function Home() {
-  return <SpreadSheet columns={10} rows={20} />;
+  return (
+    <div>
+      <h1>Simple spreadsheet</h1>
+      <p>
+        <a href="/spreadsheets">start here</a>
+      </p>
+    </div>
+  );
 }
