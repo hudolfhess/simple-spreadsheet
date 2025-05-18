@@ -1,5 +1,5 @@
 import Cell from "../Cell";
-import { CellEntity } from "../entities/cell";
+import { CellEntity } from "../../../commons/entities/cell";
 
 export default function Row(props: {
   data: { [column: number]: CellEntity };

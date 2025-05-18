@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { getAllSpreadSheets } from "@/http_clients/spreadsheets";
-import { SpreadSheetEntity } from "@/components/SpreadSheet/entities/spreadsheet";
+import { SpreadSheetEntity } from "@/commons/entities/spreadsheet";
 import "./styles.css";
 
 export default function SpreadSheetListView() {
