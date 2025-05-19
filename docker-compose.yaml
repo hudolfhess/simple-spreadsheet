@@ -1,30 +1,36 @@
 version: "3.8"
 
 services:
-  # Next.js Application
   nextjs-app:
     build:
-      context: . # Looks for Dockerfile in the current directory
+      context: .
       dockerfile: Dockerfile
-      # You can pass build arguments to Dockerfile if needed:
-      # args:
-      #   NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL_FROM_ENV}
     container_name: app
     ports:
-      - "3000:3000" # Map host port 3000 to container port 3000
+      - "3000:3000"
     environment:
       NODE_ENV: development
       POSTGRES_DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres_db:5432/${POSTGRES_DB}"
-    # MONGODB_URI: "mongodb://${MONGO_ROOT_USER}:${MONGO_ROOT_PASSWORD}@mongo_db:27017/${MONGO_DATABASE}?authSource=admin&directConnection=true"
+      # MONGODB_DATABASE_URL: "mongodb://mongouser:mongopass@mongo_db:27017/spreadsheetcontent?authSource=admin&replicaSet=rs0"
+      MONGODB_DATABASE_URL: "mongodb://${MONGO_ROOT_USER}:${MONGO_ROOT_PASSWORD}@mongo_db:27017/${MONGO_DATABASE}?authSource=admin&replicaSet=rs0"
     depends_on:
       - postgres_db
-    #   - mongo_db
+      - mongo_db
     restart: unless-stopped
     working_dir: /app
     volumes:
       - .:/app
       - /app/node_modules
       - /app/.next
+    command: >
+      sh -c "
+        sleep 5
+        npx prisma migrate dev --schema=./prisma/postgresql/schema.prisma
+        npx prisma db push --schema=./prisma/mongodb/schema.prisma
+        npm run dev
+      "
+    networks:
+      - app-network
 
   # PostgreSQL Database
   postgres_db:
@@ -39,22 +45,39 @@ services:
     ports:
       - "5432:5432"
     restart: always
+    networks:
+      - app-network
 
-  # # MongoDB Database
-  # mongo_db:
-  #   image: mongo:6-jammy # Using a specific version is good practice
-  #   container_name: mongo_db
-  #   environment:
-  #     MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER:-mongoadmin}
-  #     MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:-mongopass}
-  #     MONGO_INITDB_DATABASE: ${MONGO_DATABASE:-mymongodb} # This db will be created
-  #   volumes:
-  #     - mongodata:/data/db # Persist data
-  #     # You can add an init script here if needed:
-  #     # - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
-  #   ports:
-  #     - "27017:27017" # Expose MongoDB port to host (optional, for external tools)
-  #   restart: always
+  # MongoDB Database
+  mongo_db:
+    image: mongo:7
+    container_name: mongo_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodata:/data/db
+      - ./mongo-keyfile:/tmp/mongo-keyfile-host:ro
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
+    entrypoint:
+      - "mongod"
+      - "--replSet"
+      - "rs0"
+      - "--bind_ip_all"
+      - "--keyFile"
+      - "/tmp/mongo-keyfile-host"
+    command: []
+    restart: always
+    networks:
+      - app-network
+
 volumes:
-  pgdata: # Named volume for PostgreSQL data
-#   mongodata: # Named volume for MongoDB data
+  mongodata:
+  pgdata:
+
+networks:
+  app-network:
+    driver: bridge

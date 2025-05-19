@@ -1,9 +1,17 @@
-generator client {
+generator mongoclient {
   provider = "prisma-client-js"
-  output   = "../../../node_modules/@prisma/mongodb"
+  output   = "../../node_modules/@prisma/mongodb"
 }
 
-datasource db {
+datasource mongodb {
   provider = "mongodb"
-  url      = env("MONGO_DATABASE_URL")
+  url      = env("MONGODB_DATABASE_URL")
+}
+
+model SpreadsheetContent {
+  id             String   @id @default(auto()) @map("_id") @mongodb.ObjectId
+  spreadsheet_id String
+  content        Json
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
