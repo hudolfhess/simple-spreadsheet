@@ -3,8 +3,11 @@
 import { useState, useEffect } from "react";
 import Header from "./Header";
 import Body from "./Body";
-import { updateSpreadSheetData } from "../../commons/entities/spreadsheet_content";
-import { getSpreadSheetById } from "@/http_clients/spreadsheets";
+import { updateSpreadSheetData } from "@/commons/entities/spreadsheet_content";
+import {
+  getSpreadSheetContentBySpreadSheetId,
+  updateSpreadSheetContentBySpreadSheetId,
+} from "@/http_clients/spreadsheets";
 import "./styles.css";
 
 export default function SpreadSheet(props: {
@@ -13,10 +16,17 @@ export default function SpreadSheet(props: {
   rows: number;
 }) {
   const [data, setData] = useState({});
+  const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
-    getSpreadSheetById(props.id).then(setData);
-  }, []);
+    getSpreadSheetContentBySpreadSheetId(props.id).then(setData);
+  }, [props.id]);
+
+  useEffect(() => {
+    if (!updating) return;
+    updateSpreadSheetContentBySpreadSheetId(props.id, data);
+    setUpdating(false);
+  }, [updating]);
 
   const handleOnCellChange = function (
     row: number,
@@ -24,6 +34,7 @@ export default function SpreadSheet(props: {
     value: string
   ) {
     setData(updateSpreadSheetData(row, column, value, data));
+    setUpdating(true);
   };
 
   return (

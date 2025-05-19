@@ -1,5 +1,5 @@
 import Row from "../Row";
-import { SpreadSheetContentEntity } from "../../../commons/entities/spreadsheet_content";
+import { SpreadSheetContentEntity } from "@/commons/entities/spreadsheet_content";
 
 export default function Body(props: {
   rows: number;
