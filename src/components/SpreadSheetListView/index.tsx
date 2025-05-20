@@ -1,7 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getAllSpreadSheets } from "@/http_clients/spreadsheets";
+import {
+  deleteSpreadSheetById,
+  getAllSpreadSheets,
+} from "@/http_clients/spreadsheets";
 import { SpreadSheetEntity } from "@/commons/entities/spreadsheet";
 import "./styles.css";
 import Button from "@/components/commons/Button";
@@ -39,7 +42,13 @@ export default function SpreadSheetListView() {
                   </a>
                 </td>
                 <td className="border-b border-gray-100 p-4 pl-8 text-gray-500 dark:border-gray-700 dark:text-gray-400">
-                  <Button>Delete</Button>
+                  <Button
+                    handleOnClick={() => {
+                      deleteSpreadSheetById(spreadsheet.id);
+                    }}
+                  >
+                    Delete
+                  </Button>
                 </td>
               </tr>
             ))}
