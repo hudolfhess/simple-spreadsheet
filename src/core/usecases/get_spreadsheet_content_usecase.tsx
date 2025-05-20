@@ -1,5 +1,5 @@
-import { SpreadSheetContentEntity } from "@/commons/entities/spreadsheet_content";
-import SpreadSheetRepository from "@/core/repositories/spreadsheet_repository";
+import { SpreadSheetContentEntity } from "@/commons/entities/SpreadSheetContentEntity";
+import SpreadSheetRepository from "@/core/repositories/SpreadSheetRepository";
 
 export default async function getSpreadSheetContentUsecase(
   spreadsheetId: string

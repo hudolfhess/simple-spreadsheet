@@ -1,4 +1,4 @@
-import { CellEntity, getCellDataFrom } from "./cell";
+import { CellEntity, getCellDataFrom } from "./CellEntity";
 
 export interface SpreadSheetContentEntity {
   [row: number]: {

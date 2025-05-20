@@ -1,5 +1,5 @@
-import { SpreadSheetEntity } from "@/commons/entities/spreadsheet";
-import { SpreadSheetContentEntity } from "@/commons/entities/spreadsheet_content";
+import { SpreadSheetEntity } from "@/commons/entities/SpreadSheetEntity";
+import { SpreadSheetContentEntity } from "@/commons/entities/SpreadSheetContentEntity";
 import { MongoClient, PostgresClient } from "@/../prisma/prisma_clients";
 
 async function createSpreadSheet(name: string): Promise<SpreadSheetEntity> {
@@ -56,7 +56,11 @@ async function updateSpreadSheetContent(
   spreadsheetId: string,
   content: SpreadSheetContentEntity
 ): Promise<boolean> {
-  const spreadsheetContent = await MongoClient.spreadSheetContent.update({
+  await PostgresClient.spreadsheet.update({
+    data: { updatedAt: new Date() },
+    where: { id: spreadsheetId },
+  });
+  await MongoClient.spreadSheetContent.update({
     data: {
       content: JSON.stringify(content),
       updatedAt: new Date(),
@@ -67,8 +71,21 @@ async function updateSpreadSheetContent(
   return true;
 }
 
-async function getSpreadSheets(): Promise<SpreadSheetEntity[]> {
-  return await PostgresClient.spreadsheet.findMany();
+async function getSpreadSheets(search?: string): Promise<SpreadSheetEntity[]> {
+  const where: { name?: { contains?: string; mode?: string } } = {};
+  if (search) {
+    where["name"] = {
+      contains: `%${search}%`,
+      mode: "insensitive",
+    };
+  }
+
+  return await PostgresClient.spreadsheet.findMany({
+    where: where,
+    orderBy: {
+      updatedAt: "desc",
+    },
+  });
 }
 
 const SpreadSheetRepository = {

@@ -1,5 +1,5 @@
-import { SpreadSheetEntity } from "@/commons/entities/spreadsheet";
-import SpreadSheetRepository from "@/core/repositories/spreadsheet_repository";
+import { SpreadSheetEntity } from "@/commons/entities/SpreadSheetEntity";
+import SpreadSheetRepository from "@/core/repositories/SpreadSheetRepository";
 
 export default async function createSpreadSheetUsecase(
   name: string

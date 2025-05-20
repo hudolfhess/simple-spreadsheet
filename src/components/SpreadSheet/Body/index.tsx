@@ -1,24 +1,10 @@
 import Row from "../Row";
-import { SpreadSheetContentEntity } from "@/commons/entities/spreadsheet_content";
 
-export default function Body(props: {
-  rows: number;
-  columns: number;
-  data: SpreadSheetContentEntity;
-  handleOnCellChange: (row: number, column: number, value: string) => void;
-}) {
+export default function Body(props: { rows: number; columns: number }) {
   const rows = [];
 
   for (let i = 0; i < props.rows; i++) {
-    rows.push(
-      <Row
-        key={`row-${i}`}
-        columns={props.columns}
-        row={i}
-        data={props.data[i]}
-        handleOnCellChange={props.handleOnCellChange}
-      />
-    );
+    rows.push(<Row key={`row-${i}`} columns={props.columns} row={i} />);
   }
 
   return <tbody>{rows}</tbody>;

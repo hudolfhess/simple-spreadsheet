@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import createSpreadSheetUsecase from "@/core/usecases/create_spreadsheet_usecase";
-import SpreadSheetRepository from "@/core/repositories/spreadsheet_repository";
+import SpreadSheetRepository from "@/core/repositories/SpreadSheetRepository";
 
-export async function GET() {
-  const spreadsheets = await SpreadSheetRepository.getSpreadSheets();
+export async function GET(request: NextRequest) {
+  const searchQuery =
+    request.nextUrl.searchParams.get("search")?.toString() || "";
+  const spreadsheets = await SpreadSheetRepository.getSpreadSheets(searchQuery);
   return NextResponse.json(spreadsheets);
 }
 

@@ -1,8 +1,11 @@
-import { SpreadSheetEntity } from "@/commons/entities/spreadsheet";
-import { SpreadSheetContentEntity } from "@/commons/entities/spreadsheet_content";
+import { SpreadSheetEntity } from "@/commons/entities/SpreadSheetEntity";
+import { SpreadSheetContentEntity } from "@/commons/entities/SpreadSheetContentEntity";
 
-export function getAllSpreadSheets(): Promise<SpreadSheetEntity[]> {
-  return fetch("/api/spreadsheets").then((res) => res.json());
+export function getAllSpreadSheets(
+  search?: string
+): Promise<SpreadSheetEntity[]> {
+  const searchQuery = search ? `?search=${search}` : "";
+  return fetch(`/api/spreadsheets${searchQuery}`).then((res) => res.json());
 }
 
 export function deleteSpreadSheetById(
@@ -15,7 +18,7 @@ export function deleteSpreadSheetById(
 
 export function getSpreadSheetContentBySpreadSheetId(
   spreadsheetId: string
-): Promise<SpreadSheetEntity> {
+): Promise<SpreadSheetContentEntity> {
   return fetch(`/api/spreadsheets/${spreadsheetId}/content`).then((res) =>
     res.json()
   );

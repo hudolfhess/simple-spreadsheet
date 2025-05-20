@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import SpreadSheetRepository from "@/core/repositories/spreadsheet_repository";
+import SpreadSheetRepository from "@/core/repositories/SpreadSheetRepository";
 
 export async function GET(
   request: NextRequest,

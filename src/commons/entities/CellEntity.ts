@@ -1,4 +1,4 @@
-import { SpreadSheetContentEntity } from "./spreadsheet_content";
+import { SpreadSheetContentEntity } from "./SpreadSheetContentEntity";
 const COLUMNS_NAMES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 export interface CellEntity {

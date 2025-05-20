@@ -1,21 +1,22 @@
 import { useState, useRef, useEffect } from "react";
+import { useSpreadSheetContent } from "../SpreadSheetContentContext";
 
-export default function Cell(props: {
-  row: number;
-  column: number;
-  value: string;
-  formula: string;
-  handleOnCellChange: (row: number, column: number, value: string) => void;
-}) {
+export default function Cell(props: { row: number; column: number }) {
+  const { data, handleOnCellChange } = useSpreadSheetContent();
+  const { row, column } = props;
+  const cellValue = (data[row] && data[row][column]?.value) || "";
+  const cellFormula = (data[row] && data[row][column]?.formula) || "";
+
   const [editionMode, setEditionMode] = useState(false);
   const [selected, setSelected] = useState(false);
-  const [value, setValue] = useState(props.value);
-  const [editValue, setEditValue] = useState(props.value);
+  const [value, setValue] = useState(cellValue);
+  const [editValue, setEditValue] = useState(cellFormula || cellValue || "");
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setValue(props.value);
-  }, [props.value]);
+    setValue(cellValue);
+    setEditValue(cellFormula || cellValue || "");
+  }, [data]);
 
   useEffect(() => {
     if (editionMode === true) {
@@ -24,11 +25,6 @@ export default function Cell(props: {
   }, [editionMode]);
 
   const handleDoubleClick = () => {
-    if (props.formula !== undefined && props.formula.length > 0) {
-      setEditValue(props.formula);
-    } else {
-      setEditValue(props.value);
-    }
     setEditionMode(true);
   };
 
@@ -37,18 +33,18 @@ export default function Cell(props: {
   };
 
   const handleBlur = () => {
-    setValue(props.value);
+    setValue(value);
     setEditionMode(false);
     setSelected(false);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      props.handleOnCellChange(props.row, props.column, e.currentTarget.value);
+      handleOnCellChange(row, column, e.currentTarget.value);
       setEditionMode(false);
     } else if (e.key === "Escape") {
-      setValue(props.value);
-      setEditValue(props.formula || props.value);
+      setValue(value);
+      setEditValue(editValue);
       setEditionMode(false);
     }
   };

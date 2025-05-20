@@ -4,11 +4,14 @@ This project is a hands-on learning experience focused on building a simple spre
 
 This application allows users to:
 
+- List all spreadsheets.
+- Filter spreadsheets.
+- ~~Order spreadsheets.~~
 - ~~Create new spreadsheets.~~
-- View and interact with existing spreadsheets.
+- ~~Edit spreadsheet's name.~~
 - Update cell values within spreadsheets.
-- ~~Delete spreadsheets.~~
 - Utilize basic arithmetic formulas (e.g., +, -, \*, /) within cells.
+- Delete spreadsheets.
 
 ## Stack
 
