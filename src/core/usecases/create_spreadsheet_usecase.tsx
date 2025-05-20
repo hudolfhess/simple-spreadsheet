@@ -1,8 +1,8 @@
 import { SpreadSheetEntity } from "@/commons/entities/spreadsheet";
-import SpreadsheetRepository from "@/core/repositories/spreadsheet_repository";
+import SpreadSheetRepository from "@/core/repositories/spreadsheet_repository";
 
-export default async function createSpreadsheetUsecase(
+export default async function createSpreadSheetUsecase(
   name: string
 ): Promise<SpreadSheetEntity> {
-  return await SpreadsheetRepository.createSpreadsheet(name);
+  return await SpreadSheetRepository.createSpreadSheet(name);
 }

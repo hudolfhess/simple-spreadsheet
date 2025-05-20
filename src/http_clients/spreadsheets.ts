@@ -6,17 +6,17 @@ export function getAllSpreadSheets(): Promise<SpreadSheetEntity[]> {
 }
 
 export function getSpreadSheetContentBySpreadSheetId(
-  spreadsheet_id: string
+  spreadsheetId: string
 ): Promise<SpreadSheetEntity> {
-  return fetch(`/api/spreadsheets/${spreadsheet_id}/content`).then((res) =>
+  return fetch(`/api/spreadsheets/${spreadsheetId}/content`).then((res) =>
     res.json()
   );
 }
 export function updateSpreadSheetContentBySpreadSheetId(
-  spreadsheet_id: string,
+  spreadsheetId: string,
   content: SpreadSheetContentEntity
 ): Promise<SpreadSheetEntity> {
-  return fetch(`/api/spreadsheets/${spreadsheet_id}/content`, {
+  return fetch(`/api/spreadsheets/${spreadsheetId}/content`, {
     method: "PUT",
     body: JSON.stringify({ content }),
   }).then((res) => res.json());
