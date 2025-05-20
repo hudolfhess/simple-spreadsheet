@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import createSpreadSheetUsecase from "@/core/usecases/create_spreadsheet_usecase";
+import createSpreadSheetUsecase from "@/core/usecases/CreateSpreadsheetUsecase";
 import SpreadSheetRepository from "@/core/repositories/SpreadSheetRepository";
 
 export async function GET(request: NextRequest) {

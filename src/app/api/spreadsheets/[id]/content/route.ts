@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import getSpreadSheetContentUsecase from "@/core/usecases/get_spreadsheet_content_usecase";
-import updateSpreadSheetContentUsecase from "@/core/usecases/update_spreadsheet_content_usecase";
+import getSpreadSheetContentUsecase from "@/core/usecases/GetSpreadSheetContentUsecase";
+import updateSpreadSheetContentUsecase from "@/core/usecases/UpdateSpreadsheetContentUsecase";
 
 export async function GET(
   request: NextRequest,
