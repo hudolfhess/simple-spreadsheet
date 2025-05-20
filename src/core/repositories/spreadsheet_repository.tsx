@@ -7,9 +7,9 @@ async function createSpreadSheet(name: string): Promise<SpreadSheetEntity> {
     data: { name: name },
   });
 
-  const spreadsheetContent = await MongoClient.spreadsheetContent.create({
+  const spreadsheetContent = await MongoClient.spreadSheetContent.create({
     data: {
-      spreadsheet_id: spreadsheet.id,
+      spreadsheetId: spreadsheet.id,
       content: JSON.stringify({}),
     },
   });
@@ -26,11 +26,23 @@ async function findSpreadSheetById(
   });
 }
 
+async function destroySpreadSheetById(id: string): Promise<boolean> {
+  await PostgresClient.spreadsheet.delete({
+    where: { id: id },
+  });
+
+  await MongoClient.spreadSheetContent.delete({
+    where: { spreadsheetId: id },
+  });
+
+  return true;
+}
+
 async function loadSpreadSheetContentFrom(
   spreadsheetId: string
 ): Promise<SpreadSheetContentEntity> {
-  const spreadsheetContent = await MongoClient.spreadsheetContent.findFirst({
-    where: { spreadsheet_id: spreadsheetId },
+  const spreadsheetContent = await MongoClient.spreadSheetContent.findUnique({
+    where: { spreadsheetId: spreadsheetId },
   });
 
   if (!spreadsheetContent) {
@@ -44,15 +56,13 @@ async function updateSpreadSheetContent(
   spreadsheetId: string,
   content: SpreadSheetContentEntity
 ): Promise<boolean> {
-  const spreadsheetContent = await MongoClient.spreadsheetContent.updateMany({
+  const spreadsheetContent = await MongoClient.spreadSheetContent.update({
     data: {
       content: JSON.stringify(content),
       updatedAt: new Date(),
     },
-    where: { spreadsheet_id: spreadsheetId },
+    where: { spreadsheetId: spreadsheetId },
   });
-
-  console.log(spreadsheetContent);
 
   return true;
 }
@@ -65,6 +75,7 @@ const SpreadSheetRepository = {
   getSpreadSheets,
   findSpreadSheetById,
   createSpreadSheet,
+  destroySpreadSheetById,
   loadSpreadSheetContentFrom,
   updateSpreadSheetContent,
 };

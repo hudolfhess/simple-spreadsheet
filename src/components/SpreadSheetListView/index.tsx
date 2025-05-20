@@ -7,16 +7,16 @@ import "./styles.css";
 import Button from "@/components/commons/Button";
 
 export default function SpreadSheetListView() {
-  const [spreadsheets, setSpreadsheets] = useState([] as SpreadSheetEntity[]);
+  const [spreadsheets, setSpreadSheets] = useState([] as SpreadSheetEntity[]);
 
   useEffect(() => {
-    getAllSpreadSheets().then(setSpreadsheets);
+    getAllSpreadSheets().then(setSpreadSheets);
   }, []);
 
   return (
     <div className="spreadsheets-list">
       <h1 className="mt-2 text-3xl font-medium tracking-tight text-gray-950 dark:text-white pl-8 pb-10">
-        Spreadsheets List
+        SpreadSheets List
       </h1>
       {spreadsheets.length > 0 ? (
         <table className="w-full table-auto border-collapse text-sm">

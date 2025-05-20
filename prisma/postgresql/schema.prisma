@@ -8,8 +8,8 @@ datasource db {
   url      = env("POSTGRES_DATABASE_URL")
 }
 
-model Spreadsheet {
-  id            String    @id @default(cuid())
+model SpreadSheet {
+  id            String   @id @default(cuid())
   name          String
   updatedAt     DateTime @default(now())
   createdAt     DateTime @default(now())

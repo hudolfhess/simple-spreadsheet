@@ -1,4 +1,4 @@
-# Simple Spreadsheet
+# Simple SpreadSheet
 
 This project is a hands-on learning experience focused on building a simple spreadsheet application using Next.js, React, and TypeScript. The primary goal is to explore and understand these technologies by creating a functional CRUD (Create, Read, Update, Delete) interface for spreadsheets.
 

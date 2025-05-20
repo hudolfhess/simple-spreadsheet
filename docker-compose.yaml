@@ -11,7 +11,6 @@ services:
     environment:
       NODE_ENV: development
       POSTGRES_DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres_db:5432/${POSTGRES_DB}"
-      # MONGODB_DATABASE_URL: "mongodb://mongouser:mongopass@mongo_db:27017/spreadsheetcontent?authSource=admin&replicaSet=rs0"
       MONGODB_DATABASE_URL: "mongodb://${MONGO_ROOT_USER}:${MONGO_ROOT_PASSWORD}@mongo_db:27017/${MONGO_DATABASE}?authSource=admin&replicaSet=rs0"
     depends_on:
       - postgres_db
