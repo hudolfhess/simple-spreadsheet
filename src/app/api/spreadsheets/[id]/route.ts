@@ -11,6 +11,21 @@ export async function GET(
   return NextResponse.json(spreadsheet);
 }
 
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const id = (await params).id;
+  const body = await request.json();
+  const { name } = body;
+
+  const result = await SpreadSheetRepository.updateSpreadSheetById(id, name);
+
+  console.log(result);
+
+  return NextResponse.json(result);
+}
+
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }

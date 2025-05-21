@@ -12,8 +12,8 @@ import {
   updateSpreadSheetContentBySpreadSheetId,
 } from "@/http_clients/spreadsheets";
 import "./styles.css";
-import Link from "next/link";
 import SpreadSheetContentContext from "./SpreadSheetContentContext";
+import Editor from "./Editor";
 
 export default function SpreadSheet(props: {
   id: string;
@@ -44,10 +44,7 @@ export default function SpreadSheet(props: {
 
   return (
     <div className="spreadsheet-content">
-      <div className="spreadsheet-header">
-        <Link href="/spreadsheets/">Voltar</Link>
-        <h1>Spreadsheet</h1>
-      </div>
+      <Editor id={props.id}></Editor>
       <div className="spreadsheet">
         <SpreadSheetContentContext.Provider
           value={{ data, handleOnCellChange }}

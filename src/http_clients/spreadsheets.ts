@@ -8,6 +8,22 @@ export function getAllSpreadSheets(
   return fetch(`/api/spreadsheets${searchQuery}`).then((res) => res.json());
 }
 
+export function getSpreadSheetById(
+  spreadsheetId: string
+): Promise<SpreadSheetEntity> {
+  return fetch(`/api/spreadsheets/${spreadsheetId}`).then((res) => res.json());
+}
+
+export function updateSpreadSheetById(
+  spreadsheetId: string,
+  name: string
+): Promise<SpreadSheetEntity> {
+  return fetch(`/api/spreadsheets/${spreadsheetId}`, {
+    method: "PUT",
+    body: JSON.stringify({ name }),
+  }).then((res) => res.json());
+}
+
 export function deleteSpreadSheetById(
   id: string
 ): Promise<SpreadSheetEntity[]> {

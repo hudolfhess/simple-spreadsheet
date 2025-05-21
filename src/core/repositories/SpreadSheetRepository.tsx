@@ -26,6 +26,16 @@ async function findSpreadSheetById(
   });
 }
 
+async function updateSpreadSheetById(
+  spreadsheetId: string,
+  name: string
+): Promise<boolean> {
+  return await PostgresClient.spreadsheet.update({
+    data: { updatedAt: new Date(), name: name },
+    where: { id: spreadsheetId },
+  });
+}
+
 async function destroySpreadSheetById(id: string): Promise<boolean> {
   await PostgresClient.spreadsheet.delete({
     where: { id: id },
@@ -91,6 +101,7 @@ async function getSpreadSheets(search?: string): Promise<SpreadSheetEntity[]> {
 const SpreadSheetRepository = {
   getSpreadSheets,
   findSpreadSheetById,
+  updateSpreadSheetById,
   createSpreadSheet,
   destroySpreadSheetById,
   loadSpreadSheetContentFrom,
