@@ -7,9 +7,17 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const id = (await params).id;
-  const content = await getSpreadSheetContentUsecase(id);
+  const result = await getSpreadSheetContentUsecase(id);
 
-  return NextResponse.json(content);
+  if (result.success) {
+    return NextResponse.json(result.content);
+  }
+
+  if (result.errorType === "NOT_FOUND") {
+    return NextResponse.json({ error: result.errorMessage }, { status: 404 });
+  }
+
+  return NextResponse.json({ error: result.errorMessage }, { status: 500 });
 }
 
 export async function PUT(

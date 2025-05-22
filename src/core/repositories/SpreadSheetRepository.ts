@@ -1,6 +1,7 @@
 import { SpreadSheetEntity } from "@/commons/entities/SpreadSheetEntity";
 import { SpreadSheetContentEntity } from "@/commons/entities/SpreadSheetContentEntity";
 import { MongoClient, PostgresClient } from "@/../prisma/prisma_clients";
+import { SpreadsheetNotFoundError } from "./SpreadSheetErrors";
 
 async function createSpreadSheet(name: string): Promise<SpreadSheetEntity> {
   const spreadsheet = await PostgresClient.spreadsheet.create({
@@ -18,12 +19,14 @@ async function createSpreadSheet(name: string): Promise<SpreadSheetEntity> {
   return spreadsheet;
 }
 
-async function findSpreadSheetById(
-  id: string
-): Promise<SpreadSheetEntity | null> {
-  return await PostgresClient.spreadsheet.findUnique({
+async function findSpreadSheetById(id: string): Promise<SpreadSheetEntity> {
+  const spreadsheet = await PostgresClient.spreadsheet.findUnique({
     where: { id: id },
   });
+
+  if (spreadsheet) return spreadsheet;
+
+  throw new SpreadsheetNotFoundError(id);
 }
 
 async function updateSpreadSheetById(
