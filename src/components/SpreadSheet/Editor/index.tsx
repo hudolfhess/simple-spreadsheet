@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import {
   getSpreadSheetById,
   updateSpreadSheetById,
-} from "@/http_clients/spreadsheets";
+} from "@/http_clients/SpreadSheetsClient";
 import Link from "next/link";
 import { SpreadSheetEntity } from "@/commons/entities/SpreadSheetEntity";
 
@@ -30,10 +30,14 @@ export default function Editor(props: { id: string }) {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      updateSpreadSheetById(props.id, e.currentTarget.value).then((value) =>
-        setData((prev) => ({ ...prev, name: value.name }))
+      updateSpreadSheetById(props.id, e.currentTarget.value).then(
+        (response) => {
+          if (response.success) {
+            setData((prev) => ({ ...prev, name: response.spreadsheet.name }));
+          }
+          setEditionMode(false);
+        }
       );
-      setEditionMode(false);
     } else if (e.key === "Escape") {
       setEditValue(data.name);
       setEditionMode(false);

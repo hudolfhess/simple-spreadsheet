@@ -10,7 +10,7 @@ import {
 import {
   getSpreadSheetContentBySpreadSheetId,
   updateSpreadSheetContentBySpreadSheetId,
-} from "@/http_clients/spreadsheets";
+} from "@/http_clients/SpreadSheetsClient";
 import "./styles.css";
 import SpreadSheetContentContext from "./SpreadSheetContentContext";
 import Editor from "./Editor";

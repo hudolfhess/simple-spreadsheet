@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import {
   deleteSpreadSheetById,
   getAllSpreadSheets,
-} from "@/http_clients/spreadsheets";
+} from "@/http_clients/SpreadSheetsClient";
 import { SpreadSheetEntity } from "@/commons/entities/SpreadSheetEntity";
 import "./styles.css";
 import Button from "@/components/commons/Button";
@@ -13,14 +13,23 @@ import Link from "next/link";
 export default function SpreadSheetListView() {
   const [spreadsheets, setSpreadSheets] = useState([] as SpreadSheetEntity[]);
   const [search, setSearch] = useState("");
+  const [error, setError] = useState("");
+
+  const fetchSpreadSheets = (querySearch: string) => {
+    getAllSpreadSheets(querySearch).then((response) => {
+      if (response.success) return setSpreadSheets(response.spreadsheets);
+
+      setError(response.error);
+    });
+  };
 
   useEffect(() => {
-    getAllSpreadSheets().then(setSpreadSheets);
+    fetchSpreadSheets("");
   }, []);
 
   useEffect(() => {
     const searchEvent = setTimeout(() => {
-      getAllSpreadSheets(search).then(setSpreadSheets);
+      fetchSpreadSheets(search);
     }, 500);
 
     return () => clearTimeout(searchEvent);
