@@ -82,16 +82,15 @@ async function updateSpreadSheetContent(
 }
 
 async function getSpreadSheets(search?: string): Promise<SpreadSheetEntity[]> {
-  const where: { name?: { contains?: string; mode?: string } } = {};
-  if (search) {
-    where["name"] = {
-      contains: `%${search}%`,
-      mode: "insensitive",
-    };
-  }
-
   return await PostgresClient.spreadsheet.findMany({
-    where: where,
+    where: search
+      ? {
+          name: {
+            contains: search,
+            mode: "insensitive",
+          },
+        }
+      : {},
     orderBy: {
       updatedAt: "desc",
     },

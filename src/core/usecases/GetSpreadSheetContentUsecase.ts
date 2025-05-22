@@ -9,7 +9,7 @@ export default async function getSpreadSheetContentUsecase(
   );
 
   if (!spreadsheet) {
-    throw new Error("SpreadSheet not found");
+    throw new Error("SpreadSheet not found.");
   }
 
   const content = await SpreadSheetRepository.loadSpreadSheetContentFrom(
