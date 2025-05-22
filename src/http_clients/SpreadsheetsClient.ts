@@ -6,7 +6,7 @@ import {
   SpreadSheetDeleteResponse,
   SpreadSheetListResponse,
   SpreadSheetResponse,
-} from "./SpreadsheetsClientTypes";
+} from "./SpreadSheetsClientTypes";
 
 export async function getAllSpreadSheets(
   search?: string

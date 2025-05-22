@@ -8,7 +8,7 @@ This application allows users to:
 - Filter spreadsheets.
 - ~~Order spreadsheets.~~
 - ~~Create new spreadsheets.~~
-- ~~Edit spreadsheet's name.~~
+- Edit spreadsheet's name.
 - Update cell values within spreadsheets.
 - Utilize basic arithmetic formulas (e.g., +, -, \*, /) within cells.
 - Delete spreadsheets.
