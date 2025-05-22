@@ -22,9 +22,14 @@ export default function SpreadSheet(props: {
 }) {
   const [data, setData] = useState<SpreadSheetContentEntity>({});
   const [updating, setUpdating] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    getSpreadSheetContentBySpreadSheetId(props.id).then(setData);
+    getSpreadSheetContentBySpreadSheetId(props.id).then((res) => {
+      if (res.success === true) return setData(res.content);
+
+      setError(res.error);
+    });
   }, [props.id]);
 
   useEffect(() => {
@@ -42,7 +47,9 @@ export default function SpreadSheet(props: {
     setUpdating(true);
   };
 
-  return (
+  return error ? (
+    <div className="error">{error}</div>
+  ) : (
     <div className="spreadsheet-content">
       <Editor id={props.id}></Editor>
       <div className="spreadsheet">

@@ -21,8 +21,6 @@ export async function PUT(
 
   const result = await SpreadSheetRepository.updateSpreadSheetById(id, name);
 
-  console.log(result);
-
   return NextResponse.json(result);
 }
 

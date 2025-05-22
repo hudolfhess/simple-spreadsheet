@@ -19,7 +19,9 @@ export default function Editor(props: { id: string }) {
   const [editValue, setEditValue] = useState("");
 
   useEffect(() => {
-    getSpreadSheetById(props.id).then(setData);
+    getSpreadSheetById(props.id).then((result) => {
+      if (result.success === true) setData(result.spreadsheet);
+    });
   }, [props.id]);
 
   useEffect(() => {
@@ -28,7 +30,9 @@ export default function Editor(props: { id: string }) {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      updateSpreadSheetById(props.id, e.currentTarget.value).then(setData);
+      updateSpreadSheetById(props.id, e.currentTarget.value).then((value) =>
+        setData((prev) => ({ ...prev, name: value.name }))
+      );
       setEditionMode(false);
     } else if (e.key === "Escape") {
       setEditValue(data.name);

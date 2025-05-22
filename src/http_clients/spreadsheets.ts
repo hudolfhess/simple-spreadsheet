@@ -1,6 +1,24 @@
 import { SpreadSheetEntity } from "@/commons/entities/SpreadSheetEntity";
 import { SpreadSheetContentEntity } from "@/commons/entities/SpreadSheetContentEntity";
 
+interface ErrorResponse {
+  success: false;
+  error: string;
+}
+
+interface SpreadSheetSuccessResponse {
+  success: true;
+  spreadsheet: SpreadSheetEntity;
+}
+
+interface ContentSuccessResponse {
+  success: true;
+  content: SpreadSheetContentEntity;
+}
+
+type ContentResponse = ErrorResponse | ContentSuccessResponse;
+type SpreadSheetResponse = ErrorResponse | SpreadSheetSuccessResponse;
+
 export function getAllSpreadSheets(
   search?: string
 ): Promise<SpreadSheetEntity[]> {
@@ -10,8 +28,19 @@ export function getAllSpreadSheets(
 
 export function getSpreadSheetById(
   spreadsheetId: string
-): Promise<SpreadSheetEntity> {
-  return fetch(`/api/spreadsheets/${spreadsheetId}`).then((res) => res.json());
+): Promise<SpreadSheetResponse> {
+  return fetch(`/api/spreadsheets/${spreadsheetId}`).then((res) => {
+    if (res.status === 200) {
+      return res.json().then((spreadsheet) => ({
+        success: true,
+        spreadsheet: spreadsheet,
+      }));
+    }
+    return res.text().then((text) => ({
+      success: false,
+      error: JSON.parse(text)["error"],
+    }));
+  });
 }
 
 export function updateSpreadSheetById(
@@ -34,10 +63,19 @@ export function deleteSpreadSheetById(
 
 export function getSpreadSheetContentBySpreadSheetId(
   spreadsheetId: string
-): Promise<SpreadSheetContentEntity> {
-  return fetch(`/api/spreadsheets/${spreadsheetId}/content`).then((res) =>
-    res.json()
-  );
+): Promise<ContentResponse> {
+  return fetch(`/api/spreadsheets/${spreadsheetId}/content`).then((res) => {
+    if (res.status === 200) {
+      return res.json().then((content) => ({
+        success: true,
+        content: content,
+      }));
+    }
+    return res.text().then((text) => ({
+      success: false,
+      error: JSON.parse(text)["error"],
+    }));
+  });
 }
 
 export function updateSpreadSheetContentBySpreadSheetId(
