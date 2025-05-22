@@ -19,9 +19,12 @@ export default function Editor(props: { id: string }) {
   const [editValue, setEditValue] = useState("");
 
   useEffect(() => {
-    getSpreadSheetById(props.id).then((result) => {
+    const fetchSpreadSheet = async () => {
+      const result = await getSpreadSheetById(props.id);
       if (result.success === true) setData(result.spreadsheet);
-    });
+    };
+
+    fetchSpreadSheet();
   }, [props.id]);
 
   useEffect(() => {
