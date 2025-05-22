@@ -7,8 +7,9 @@ import {
 } from "@/http_clients/SpreadSheetsClient";
 import { SpreadSheetEntity } from "@/commons/entities/SpreadSheetEntity";
 import "./styles.css";
-import Button from "@/components/commons/Button";
+import DeleteButton from "@/components/commons/DeleteButton";
 import Link from "next/link";
+import SearchBox from "../commons/SearchBox";
 
 export default function SpreadSheetListView() {
   const [spreadsheets, setSpreadSheets] = useState([] as SpreadSheetEntity[]);
@@ -54,37 +55,27 @@ export default function SpreadSheetListView() {
 
   return (
     <div className="spreadsheets-list">
-      <h1 className="mt-2 text-3xl font-medium tracking-tight text-gray-950 dark:text-white pl-8 pb-10">
+      <h1 className="mt-5 text-3xl font-medium tracking-tight text-gray-950 dark:text-white pl-8 pb-5">
         SpreadSheets List
       </h1>
-      <div className="filter pl-8 pb-10">
-        <input
-          onChange={onSearch}
-          type="text"
-          placeholder="Search..."
-          className="block w-100 rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-        />
-      </div>
+      <SearchBox handleOnSearch={onSearch} />
       {error ? <p>{error}</p> : null}
       {spreadsheets.length > 0 ? (
         <div>
-          <table className="w-full table-fixed divide-y divide-gray-100 border-collapse text-sm">
-            <thead>
+          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-200 dark:bg-gray-700 dark:text-gray-400">
               <tr>
-                <th className="border-b border-gray-200 p-4 pt-0 pb-3 pl-8 text-left font-medium text-gray-400 dark:border-gray-600 dark:text-gray-200">
-                  Name
-                </th>
-                <th className="border-b border-gray-200 p-4 pt-0 pb-3 pl-8 text-left font-medium text-gray-400 dark:border-gray-600 dark:text-gray-200">
-                  Last update
-                </th>
-                <th className="border-b border-gray-200 p-4 pt-0 pb-3 pl-8 text-left font-medium text-gray-400 dark:border-gray-600 dark:text-gray-200 w-72">
-                  Actions
-                </th>
+                <th className="p-4 pl-8">Name</th>
+                <th className="p-4 pl-8">Last update</th>
+                <th className="p-4 pl-8 w-72">Actions</th>
               </tr>
             </thead>
             <tbody>
               {spreadsheets.map((spreadsheet) => (
-                <tr key={spreadsheet.id}>
+                <tr
+                  key={spreadsheet.id}
+                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
+                >
                   <td className="border-b border-gray-100 p-4 pl-8 text-gray-700 dark:border-gray-700 dark:text-gray-400">
                     <Link href={`/spreadsheets/${spreadsheet.id}`}>
                       {spreadsheet.name}
@@ -94,11 +85,11 @@ export default function SpreadSheetListView() {
                     {new Date(spreadsheet.updatedAt).toString()}
                   </td>
                   <td className="border-b border-gray-100 p-4 pl-8 text-gray-500 dark:border-gray-700 dark:text-gray-400 w-72">
-                    <Button
+                    <DeleteButton
                       handleOnClick={() => onDeleteSpreadSheet(spreadsheet.id)}
                     >
                       Delete
-                    </Button>
+                    </DeleteButton>
                   </td>
                 </tr>
               ))}

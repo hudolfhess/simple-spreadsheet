@@ -3,7 +3,7 @@
 import { useState } from "react";
 import "tailwindcss";
 
-export default function Button({
+export default function DeleteButton({
   handleOnClick,
   children,
 }: {
