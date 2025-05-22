@@ -25,18 +25,21 @@ export default function SpreadSheet(props: {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    getSpreadSheetContentBySpreadSheetId(props.id).then((res) => {
-      if (res.success === true) return setData(res.content);
+    const fetchSpreadSheetContent = async () => {
+      const response = await getSpreadSheetContentBySpreadSheetId(props.id);
+      if (response.success === true) return setData(response.content);
 
-      setError(res.error);
-    });
+      setError(response.error);
+    };
+
+    fetchSpreadSheetContent();
   }, [props.id]);
 
   useEffect(() => {
     if (!updating) return;
     updateSpreadSheetContentBySpreadSheetId(props.id, data);
     setUpdating(false);
-  }, [updating]);
+  }, [props.id, data, updating]);
 
   const handleOnCellChange = function (
     row: number,
