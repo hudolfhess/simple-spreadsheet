@@ -15,25 +15,19 @@ export default function SpreadSheetListView() {
   const [search, setSearch] = useState("");
   const [error, setError] = useState("");
 
-  const fetchSpreadSheets = (querySearch: string) => {
-    getAllSpreadSheets(querySearch).then((response) => {
-      if (response.success) return setSpreadSheets(response.spreadsheets);
+  const fetchSpreadSheets = async (querySearch: string) => {
+    const response = await getAllSpreadSheets(querySearch);
+    if (response.success) return setSpreadSheets(response.spreadsheets);
 
-      setError(response.error);
-    });
+    setError(response.error);
   };
 
-  useEffect(() => {
-    fetchSpreadSheets("");
-  }, []);
+  const onDeleteSpreadSheet = async (id: string) => {
+    const response = await deleteSpreadSheetById(id);
+    if (response.success) return removeSpreadSheetFromData(id);
 
-  useEffect(() => {
-    const searchEvent = setTimeout(() => {
-      fetchSpreadSheets(search);
-    }, 500);
-
-    return () => clearTimeout(searchEvent);
-  }, [search]);
+    setError(response.error);
+  };
 
   const removeSpreadSheetFromData = (id: string) => {
     setSpreadSheets((spreadsheets) =>
@@ -44,6 +38,19 @@ export default function SpreadSheetListView() {
   const onSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
   };
+
+  useEffect(() => {
+    if (search === "") {
+      fetchSpreadSheets("");
+      return;
+    }
+
+    const searchEvent = setTimeout(() => {
+      fetchSpreadSheets(search);
+    }, 500);
+
+    return () => clearTimeout(searchEvent);
+  }, [search]);
 
   return (
     <div className="spreadsheets-list">
@@ -87,10 +94,7 @@ export default function SpreadSheetListView() {
                   </td>
                   <td className="border-b border-gray-100 p-4 pl-8 text-gray-500 dark:border-gray-700 dark:text-gray-400 w-72">
                     <Button
-                      handleOnClick={() => {
-                        deleteSpreadSheetById(spreadsheet.id);
-                        removeSpreadSheetFromData(spreadsheet.id);
-                      }}
+                      handleOnClick={() => onDeleteSpreadSheet(spreadsheet.id)}
                     >
                       Delete
                     </Button>
