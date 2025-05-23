@@ -75,7 +75,6 @@ export default function SpreadSheetListView() {
       <div className="grid grid-cols-2 mt-4 mb-8">
         <div>
           <button
-            // className="rounded-md bg-blue-500 px-4 py-2 text-sm font-semibold text-white opacity-100 focus:outline-none hover:bg-blue-600 cursor-pointer"
             className="btn btn-primary"
             onClick={() => setShowCreateModal(true)}
           >

@@ -3,7 +3,7 @@ body {
 }
 
 .spreadsheet-header {
-  height: 80px;
+  height: 58px;
 }
 
 .spreadsheet-content {
@@ -15,7 +15,7 @@ body {
 .spreadsheet {
   position: absolute;
   width: 100%;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 58px);
   overflow: scroll;
 }
 

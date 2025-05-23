@@ -3,7 +3,7 @@
 import "react";
 import { SpreadSheetEntity } from "@/commons/entities/SpreadSheetEntity";
 import DeleteSVG from "@/components/commons/Icons/DeleteSVG";
-import SpreadSheetSVG from "@/components/commons/Icons/SpreadSheetSVG";
+import Image from "next/image";
 
 export default function GridView({
   spreadsheets,
@@ -18,7 +18,12 @@ export default function GridView({
         {spreadsheets.map((spreadsheet) => (
           <li key={spreadsheet.id} className="list-row">
             <div>
-              <SpreadSheetSVG />
+              <Image
+                src="/spreadsheet_icon.png"
+                width={36}
+                height={36}
+                alt="SpreadSheeet Icon"
+              />
             </div>
             <div>
               <div>{spreadsheet.name}</div>
