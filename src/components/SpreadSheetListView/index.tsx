@@ -8,6 +8,7 @@ import SearchBox from "../commons/SearchBox";
 import SpreadSheetCreateModal from "../SpreadSheetCreateModal";
 import SpreadSheetCard from "./SpreadSheetCard";
 import ToggleView from "./ToggleView";
+import GridView from "./GridView";
 
 const VIEW_MODE_LIST = "list";
 const VIEW_MODE_GRID = "grid";
@@ -83,17 +84,10 @@ export default function SpreadSheetListView() {
           {viewMode === VIEW_MODE_LIST ? (
             <div>No table yet</div>
           ) : (
-            <div className="flex grid mb-8 md:mb-12 md:grid-cols-5 bg-white justify-between gap-5">
-              {spreadsheets.map((spreadsheet) => (
-                <SpreadSheetCard
-                  key={spreadsheet.id}
-                  id={spreadsheet.id}
-                  name={spreadsheet.name}
-                  lastUpdate={spreadsheet.updatedAt}
-                  onDelete={() => removeSpreadSheetFromData(spreadsheet.id)}
-                />
-              ))}
-            </div>
+            <GridView
+              spreadsheets={spreadsheets}
+              onDelete={removeSpreadSheetFromData}
+            />
           )}
         </div>
       ) : null}
