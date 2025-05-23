@@ -4,7 +4,7 @@ import { MongoClient, PostgresClient } from "@/../prisma/prisma_clients";
 import { SpreadsheetNotFoundError } from "./SpreadSheetErrors";
 
 async function createSpreadSheet(name: string): Promise<SpreadSheetEntity> {
-  const spreadsheet = await PostgresClient.spreadsheet.create({
+  const spreadsheet = await PostgresClient.spreadSheet.create({
     data: { name: name },
   });
 
@@ -20,7 +20,7 @@ async function createSpreadSheet(name: string): Promise<SpreadSheetEntity> {
 }
 
 async function findSpreadSheetById(id: string): Promise<SpreadSheetEntity> {
-  const spreadsheet = await PostgresClient.spreadsheet.findUnique({
+  const spreadsheet = await PostgresClient.spreadSheet.findUnique({
     where: { id: id },
   });
 
@@ -33,14 +33,14 @@ async function updateSpreadSheetById(
   spreadsheetId: string,
   name: string
 ): Promise<boolean> {
-  return await PostgresClient.spreadsheet.update({
+  return await PostgresClient.spreadSheet.update({
     data: { updatedAt: new Date(), name: name },
     where: { id: spreadsheetId },
   });
 }
 
 async function destroySpreadSheetById(id: string): Promise<boolean> {
-  await PostgresClient.spreadsheet.delete({
+  await PostgresClient.spreadSheet.delete({
     where: { id: id },
   });
 
@@ -69,7 +69,7 @@ async function updateSpreadSheetContent(
   spreadsheetId: string,
   content: SpreadSheetContentEntity
 ): Promise<boolean> {
-  await PostgresClient.spreadsheet.update({
+  await PostgresClient.spreadSheet.update({
     data: { updatedAt: new Date() },
     where: { id: spreadsheetId },
   });
@@ -85,7 +85,7 @@ async function updateSpreadSheetContent(
 }
 
 async function getSpreadSheets(search?: string): Promise<SpreadSheetEntity[]> {
-  return await PostgresClient.spreadsheet.findMany({
+  return await PostgresClient.spreadSheet.findMany({
     where: search
       ? {
           name: {
