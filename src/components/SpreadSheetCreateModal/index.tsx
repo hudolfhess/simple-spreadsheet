@@ -27,18 +27,17 @@ export default function SpreadSheetCreateModal({
       handleOnClose={handleOnClose}
       handleOnCreate={handleOnCreate}
     >
-      <>
-        <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-          Name:
-        </p>
-        <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </p>
-      </>
+      <label className="input w-120">
+        Name:
+        <input
+          type="text"
+          className="grow"
+          placeholder="Type here"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <span className="badge badge-neutral badge-xs">Required</span>
+      </label>
     </FormModal>
   );
 }

@@ -68,19 +68,26 @@ export default function SpreadSheetListView() {
         </div>
         <div className="flex justify-end self-end">
           <SearchBox handleOnSearch={onSearch} />
+        </div>
+      </div>
+
+      {error ? <p>{error}</p> : null}
+      <div className="grid grid-cols-2 mt-4 mb-8">
+        <div>
           <button
-            className="rounded-md bg-cyan-500 px-4 py-2 text-sm font-semibold text-white opacity-100 focus:outline-none hover:bg-blue-500 cursor-pointer"
+            // className="rounded-md bg-blue-500 px-4 py-2 text-sm font-semibold text-white opacity-100 focus:outline-none hover:bg-blue-600 cursor-pointer"
+            className="btn btn-primary"
             onClick={() => setShowCreateModal(true)}
           >
             Create new SpreadSheet
           </button>
         </div>
+        <div className="flex justify-end self-end">
+          <ToggleView onViewModeChange={setViewMode} />
+        </div>
       </div>
-
-      {error ? <p>{error}</p> : null}
       {spreadsheets.length > 0 ? (
         <div>
-          <ToggleView onViewModeChange={setViewMode} />
           {viewMode === VIEW_MODE_LIST ? (
             <TableView
               spreadsheets={spreadsheets}
