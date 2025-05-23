@@ -27,13 +27,14 @@ export default function SpreadSheetCreateModal({
       handleOnClose={handleOnClose}
       handleOnCreate={handleOnCreate}
     >
-      <label className="input w-120">
+      <label className="input validator w-120">
         Name:
         <input
           type="text"
           className="grow"
           placeholder="Type here"
           value={name}
+          required
           onChange={(e) => setName(e.target.value)}
         />
         <span className="badge badge-neutral badge-xs">Required</span>
