@@ -8,6 +8,7 @@ import SearchBox from "../commons/SearchBox";
 import SpreadSheetCreateModal from "../SpreadSheetCreateModal";
 import ToggleView from "./ToggleView";
 import GridView from "./GridView";
+import TableView from "./TableView";
 
 const VIEW_MODE_LIST = "list";
 const VIEW_MODE_GRID = "grid";
@@ -81,7 +82,10 @@ export default function SpreadSheetListView() {
         <div>
           <ToggleView onViewModeChange={setViewMode} />
           {viewMode === VIEW_MODE_LIST ? (
-            <div>No table yet</div>
+            <TableView
+              spreadsheets={spreadsheets}
+              onDelete={removeSpreadSheetFromData}
+            />
           ) : (
             <GridView
               spreadsheets={spreadsheets}
