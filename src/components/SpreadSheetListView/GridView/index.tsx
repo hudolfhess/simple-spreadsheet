@@ -1,10 +1,6 @@
 "use client";
 
 import "react";
-import Image from "next/image";
-import { useState } from "react";
-import { deleteSpreadSheetById } from "@/http_clients/SpreadSheetsClient";
-import Link from "next/link";
 import { SpreadSheetEntity } from "@/commons/entities/SpreadSheetEntity";
 import SpreadSheetCard from "../SpreadSheetCard";
 

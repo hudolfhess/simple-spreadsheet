@@ -6,7 +6,6 @@ import { SpreadSheetEntity } from "@/commons/entities/SpreadSheetEntity";
 import "./styles.css";
 import SearchBox from "../commons/SearchBox";
 import SpreadSheetCreateModal from "../SpreadSheetCreateModal";
-import SpreadSheetCard from "./SpreadSheetCard";
 import ToggleView from "./ToggleView";
 import GridView from "./GridView";
 
