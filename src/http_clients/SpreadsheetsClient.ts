@@ -23,6 +23,26 @@ export async function getAllSpreadSheets(
   };
 }
 
+export async function createSpreadSheet(
+  name: string
+): Promise<SpreadSheetResponse> {
+  const response = await fetch("/api/spreadsheets", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name }),
+  });
+
+  if (!response.ok) return responseError(response);
+
+  const spreadsheet = await response.json();
+  return {
+    success: true,
+    spreadsheet: spreadsheet,
+  };
+}
+
 export async function getSpreadSheetById(
   spreadsheetId: string
 ): Promise<SpreadSheetResponse> {

@@ -1,31 +1,27 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import {
-  deleteSpreadSheetById,
-  getAllSpreadSheets,
-} from "@/http_clients/SpreadSheetsClient";
+import { getAllSpreadSheets } from "@/http_clients/SpreadSheetsClient";
 import { SpreadSheetEntity } from "@/commons/entities/SpreadSheetEntity";
 import "./styles.css";
-import DeleteButton from "@/components/commons/DeleteButton";
-import Link from "next/link";
 import SearchBox from "../commons/SearchBox";
+import SpreadSheetCreateModal from "../SpreadSheetCreateModal";
+import SpreadSheetCard from "./SpreadSheetCard";
+import ToggleView from "./ToggleView";
+
+const VIEW_MODE_LIST = "list";
+const VIEW_MODE_GRID = "grid";
 
 export default function SpreadSheetListView() {
   const [spreadsheets, setSpreadSheets] = useState([] as SpreadSheetEntity[]);
   const [search, setSearch] = useState("");
   const [error, setError] = useState("");
+  const [viewMode, setViewMode] = useState(VIEW_MODE_GRID);
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
   const fetchSpreadSheets = async (querySearch: string) => {
     const response = await getAllSpreadSheets(querySearch);
     if (response.success) return setSpreadSheets(response.spreadsheets);
-
-    setError(response.error);
-  };
-
-  const onDeleteSpreadSheet = async (id: string) => {
-    const response = await deleteSpreadSheetById(id);
-    if (response.success) return removeSpreadSheetFromData(id);
 
     setError(response.error);
   };
@@ -54,47 +50,51 @@ export default function SpreadSheetListView() {
   }, [search]);
 
   return (
-    <div className="spreadsheets-list">
-      <h1 className="mt-5 text-3xl font-medium tracking-tight text-gray-950 dark:text-white pl-8 pb-5">
-        SpreadSheets List
-      </h1>
-      <SearchBox handleOnSearch={onSearch} />
+    <div className="mx-auto w-full max-w-7xl">
+      {showCreateModal ? (
+        <SpreadSheetCreateModal
+          handleOnClose={() => {
+            console.log("close");
+            setShowCreateModal(false);
+          }}
+        />
+      ) : null}
+      <div className="grid grid-cols-2 gap-4 mb-3 pb-4 pt-4">
+        <div className="flex justify-start self-end">
+          <h1 className="text-3xl font-medium tracking-tight text-gray-950">
+            SpreadSheets List
+          </h1>
+        </div>
+        <div className="flex justify-end self-end">
+          <SearchBox handleOnSearch={onSearch} />
+          <button
+            className="rounded-md bg-cyan-500 px-4 py-2 text-sm font-semibold text-white opacity-100 focus:outline-none hover:bg-blue-500 cursor-pointer"
+            onClick={() => setShowCreateModal(true)}
+          >
+            Create new SpreadSheet
+          </button>
+        </div>
+      </div>
+
       {error ? <p>{error}</p> : null}
       {spreadsheets.length > 0 ? (
         <div>
-          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-200 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                <th className="p-4 pl-8">Name</th>
-                <th className="p-4 pl-8">Last update</th>
-                <th className="p-4 pl-8 w-72">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
+          <ToggleView onViewModeChange={setViewMode} />
+          {viewMode === VIEW_MODE_LIST ? (
+            <div>No table yet</div>
+          ) : (
+            <div className="flex grid mb-8 md:mb-12 md:grid-cols-5 bg-white justify-between gap-5">
               {spreadsheets.map((spreadsheet) => (
-                <tr
+                <SpreadSheetCard
                   key={spreadsheet.id}
-                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
-                >
-                  <td className="border-b border-gray-100 p-4 pl-8 text-gray-700 dark:border-gray-700 dark:text-gray-400">
-                    <Link href={`/spreadsheets/${spreadsheet.id}`}>
-                      {spreadsheet.name}
-                    </Link>
-                  </td>
-                  <td className="border-b border-gray-100 p-4 pl-8 text-gray-500 dark:border-gray-700 dark:text-gray-400">
-                    {new Date(spreadsheet.updatedAt).toString()}
-                  </td>
-                  <td className="border-b border-gray-100 p-4 pl-8 text-gray-500 dark:border-gray-700 dark:text-gray-400 w-72">
-                    <DeleteButton
-                      handleOnClick={() => onDeleteSpreadSheet(spreadsheet.id)}
-                    >
-                      Delete
-                    </DeleteButton>
-                  </td>
-                </tr>
+                  id={spreadsheet.id}
+                  name={spreadsheet.name}
+                  lastUpdate={spreadsheet.updatedAt}
+                  onDelete={() => removeSpreadSheetFromData(spreadsheet.id)}
+                />
               ))}
-            </tbody>
-          </table>
+            </div>
+          )}
         </div>
       ) : null}
     </div>

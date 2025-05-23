@@ -9,7 +9,7 @@ export default function SearchBox({
   handleOnSearch: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
   return (
-    <div className="pl-8 pb-4 bg-white dark:bg-gray-900">
+    <div className="bg-white">
       <label htmlFor="table-search" className="sr-only">
         Search
       </label>
@@ -35,7 +35,7 @@ export default function SearchBox({
           type="text"
           onChange={handleOnSearch}
           id="table-search"
-          className="block w-100 pt-2 ps-10 px-3 py-1.5 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="block w-125 pt-2 ps-10 px-3 py-1.5 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Search for items"
         />
       </div>
