@@ -15,6 +15,8 @@ const options = [
   { format: "bg-blue-700", text: "Background Blue" },
   { format: "bg-green-700", text: "Background Green" },
   { format: "bg-red-700", text: "Background Red" },
+  { format: "bg-gray-700", text: "Background Dark Gray" },
+  { format: "bg-gray-100", text: "Background Light Gray" },
 
   // Money
   { format: "money-brl", text: "Money BRL" },
