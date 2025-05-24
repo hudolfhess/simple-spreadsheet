@@ -3,7 +3,14 @@ import { SpreadSheetContentEntity } from "@/commons/entities/SpreadSheetContentE
 
 interface SpreadSheetContentContextType {
   data: SpreadSheetContentEntity;
-  handleOnCellChange: (row: number, column: number, value: string) => void;
+  handleOnCellChange: (
+    row: number,
+    column: number,
+    value: string,
+    format?: string[]
+  ) => void;
+  // selectedCell: { row: number; column: number } | null;
+  setSelectedCell: ({ row, column }: { row: number; column: number }) => void;
 }
 
 const SpreadSheetContentContext = createContext<

@@ -5,8 +5,13 @@ export interface CellEntity {
   value: string;
   formula: string;
   type?: string;
+  format?: string[];
   referencesTo?: number[][];
   referencedBy?: number[][];
+}
+
+export function getCellName(row: number, column: number): string {
+  return `${COLUMNS_NAMES[column]}${row + 1}`;
 }
 
 export function getCellDataFrom(
@@ -23,6 +28,9 @@ export function getCellDataFrom(
     const operationData = extractFormulaFromCell(currentCell, data);
     currentCell.value = executeAllOperations(operationData.values).toString();
     currentCell.referencesTo = operationData.referencesTo;
+  } else {
+    currentCell.formula = "";
+    currentCell.referencesTo = [];
   }
 
   currentCell.type = "string";

@@ -1,6 +1,7 @@
+import React from "react";
 import Row from "../Row";
 
-export default function Body(props: { rows: number; columns: number }) {
+function Body(props: { rows: number; columns: number }) {
   const rows = [];
 
   for (let i = 0; i < props.rows; i++) {
@@ -9,3 +10,5 @@ export default function Body(props: { rows: number; columns: number }) {
 
   return <tbody>{rows}</tbody>;
 }
+
+export default React.memo(Body);

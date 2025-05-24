@@ -29,7 +29,7 @@ export default function SpreadSheetCard({
       className={
         confirmDelete
           ? `card card-md bg-neutral text-neutral-content`
-          : `card card-xs bg-base-100 shadow-sm hover:bg-base-300 cursor-pointer`
+          : `card card-xs bg-base-100 shadow-sm hover:bg-gray-100 hover:shadow-xl/30 cursor-pointer`
       }
     >
       {confirmDelete ? (
