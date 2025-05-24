@@ -23,6 +23,9 @@ const options = [
   { format: "money-dollar", text: "Money Dollar" },
   { format: "money-euro", text: "Money Euro" },
   { format: "money-pound", text: "Money GBP" },
+
+  // Number format
+  { format: "number-percent", text: "Percent" },
 ];
 
 export default function CellEditor(props: {

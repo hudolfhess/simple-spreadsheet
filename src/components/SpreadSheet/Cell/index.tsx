@@ -71,6 +71,9 @@ function Cell(props: { row: number; column: number }) {
         currency: "BRL",
       });
     }
+    if (format.includes("number-percent")) {
+      return `${(parseFloat(value) * 100).toFixed(2)} %`;
+    }
 
     return value;
   };
