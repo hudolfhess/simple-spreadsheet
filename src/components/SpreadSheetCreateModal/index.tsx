@@ -27,6 +27,7 @@ export default function SpreadSheetCreateModal({
       handleOnClose={handleOnClose}
       handleOnCreate={handleOnCreate}
     >
+      <p>Inform the name of the new spreadsheet:</p>
       <label className="input validator w-120">
         Name:
         <input

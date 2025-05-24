@@ -9,6 +9,8 @@ import SpreadSheetCreateModal from "../SpreadSheetCreateModal";
 import ToggleView from "./ToggleView";
 import GridView from "./GridView";
 import TableView from "./TableView";
+import NotFound from "./NotFound";
+import Loading from "./Loading";
 
 const VIEW_MODE_LIST = "list";
 const VIEW_MODE_GRID = "grid";
@@ -16,13 +18,20 @@ const VIEW_MODE_GRID = "grid";
 export default function SpreadSheetListView() {
   const [spreadsheets, setSpreadSheets] = useState([] as SpreadSheetEntity[]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [lastSearch, setLastSearch] = useState("");
   const [error, setError] = useState("");
   const [viewMode, setViewMode] = useState(VIEW_MODE_GRID);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
   const fetchSpreadSheets = async (querySearch: string) => {
+    setLoading(true);
     const response = await getAllSpreadSheets(querySearch);
-    if (response.success) return setSpreadSheets(response.spreadsheets);
+    if (response.success) {
+      setSpreadSheets(response.spreadsheets);
+      setLoading(false);
+      return;
+    }
 
     setError(response.error);
   };
@@ -39,12 +48,15 @@ export default function SpreadSheetListView() {
 
   useEffect(() => {
     if (search === "") {
+      setLastSearch("");
       fetchSpreadSheets("");
       return;
     }
 
     const searchEvent = setTimeout(() => {
-      fetchSpreadSheets(search);
+      fetchSpreadSheets(search).then(() => {
+        setLastSearch(search);
+      });
     }, 500);
 
     return () => clearTimeout(searchEvent);
@@ -99,7 +111,11 @@ export default function SpreadSheetListView() {
             />
           )}
         </div>
-      ) : null}
+      ) : loading ? (
+        <Loading />
+      ) : (
+        <NotFound search={lastSearch} />
+      )}
     </div>
   );
 }
