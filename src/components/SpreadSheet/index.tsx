@@ -15,6 +15,7 @@ import "./styles.css";
 import SpreadSheetContentContext from "./SpreadSheetContentContext";
 import Editor from "./Editor";
 import { CellEntity, getCellName } from "@/commons/entities/CellEntity";
+import CellEditor from "./CellEditor";
 
 export default function SpreadSheet(props: {
   id: string;
@@ -123,6 +124,17 @@ export default function SpreadSheet(props: {
                   Value: {currentCell.value}
                 </span>
                 <span>
+                  <CellEditor
+                    onFormatClick={(format: string) => {
+                      updateCellFormat(
+                        selectedCell.row,
+                        selectedCell.column,
+                        format
+                      );
+                    }}
+                  />
+                </span>
+                {/* <span>
                   <button
                     className="btn btn-xs mr-1"
                     onClick={(e) => {
@@ -188,7 +200,7 @@ export default function SpreadSheet(props: {
                   >
                     Money R$
                   </button>
-                </span>
+                </span> */}
               </>
             )}
           </div>

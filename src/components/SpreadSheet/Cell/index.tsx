@@ -75,6 +75,22 @@ function Cell(props: { row: number; column: number }) {
     return value;
   };
 
+  const cellStyles = function (): string {
+    const styles = [];
+
+    cellFormat.forEach((format) => {
+      if (
+        format.startsWith("text-") ||
+        format.startsWith("font-") ||
+        format.startsWith("bg-")
+      ) {
+        styles.push(format);
+      }
+    });
+
+    return styles.join(" ");
+  };
+
   return (
     <div
       onBlur={handleBlur}
@@ -89,9 +105,7 @@ function Cell(props: { row: number; column: number }) {
         className={`${
           editionMode
             ? "input input-secondary edit-mode"
-            : `view-mode ${cellFormat.includes("bold") ? "font-bold" : ""} ${
-                cellFormat.includes("green-value") ? "text-green-700" : ""
-              } ${cellFormat.includes("red-value") ? "text-red-500" : ""}`
+            : `view-mode ${cellStyles()}`
         }`}
         disabled={!editionMode}
         onChange={(e) => setEditValue(e.target.value)}
