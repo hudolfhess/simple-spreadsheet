@@ -64,7 +64,7 @@ export default function Editor(props: { id: string }) {
           title="List all spreadsheets"
         >
           <Image
-            src="/spreadsheet_icon.png"
+            src="/spreadsheet_icon_3.png"
             width={36}
             height={36}
             alt="SpreadSheeet Icon"

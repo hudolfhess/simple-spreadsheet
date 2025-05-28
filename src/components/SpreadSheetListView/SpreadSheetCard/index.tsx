@@ -6,6 +6,7 @@ import { useState } from "react";
 import { deleteSpreadSheetById } from "@/http_clients/SpreadSheetsClient";
 import Link from "next/link";
 import DeleteSVG from "@/components/commons/Icons/DeleteSVG";
+import { Sheet } from "lucide-react";
 
 export default function SpreadSheetCard({
   id,
@@ -53,10 +54,10 @@ export default function SpreadSheetCard({
           <Link href={`/spreadsheets/${id}`} className="rounded-sm">
             <figure>
               <Image
-                src="/spreadsheet_2.png"
-                alt="SpreadSheet preview"
-                width={928}
-                height={548}
+                src="/spreadsheet_icon_3.png"
+                width={128}
+                height={128}
+                alt="SpreadSheeet Icon"
               />
             </figure>
             <div className="card-body">
