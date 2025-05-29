@@ -1,6 +1,7 @@
 generator mongoclient {
   provider = "prisma-client-js"
   output   = "../../node_modules/@prisma/mongodb"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource mongodb {
