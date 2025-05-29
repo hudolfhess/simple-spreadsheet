@@ -21,7 +21,7 @@ export async function PUT(
 
   const result = await SpreadSheetRepository.updateSpreadSheetById(id, name);
 
-  return NextResponse.json(result);
+  return NextResponse.json({ success: result });
 }
 
 export async function DELETE(

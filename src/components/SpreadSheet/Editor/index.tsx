@@ -41,14 +41,13 @@ export default function Editor(props: { id: string }) {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      updateSpreadSheetById(props.id, e.currentTarget.value).then(
-        (response) => {
-          if (response.success) {
-            setData((prev) => ({ ...prev, name: response.spreadsheet.name }));
-          }
-          setEditionMode(false);
+      const currentName = e.currentTarget.value;
+      updateSpreadSheetById(props.id, currentName).then((response) => {
+        if (response.success) {
+          setData((prev) => ({ ...prev, name: currentName }));
         }
-      );
+        setEditionMode(false);
+      });
     } else if (e.key === "Escape") {
       setEditValue(data.name);
       setEditionMode(false);
