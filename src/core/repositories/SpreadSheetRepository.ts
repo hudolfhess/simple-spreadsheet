@@ -8,7 +8,7 @@ async function createSpreadSheet(name: string): Promise<SpreadSheetEntity> {
     data: { name: name },
   });
 
-  await MongoClient.spreadSheetContent.create({
+  const content = await MongoClient.spreadSheetContent.create({
     data: {
       spreadsheetId: spreadsheet.id,
       content: JSON.stringify({}),
@@ -18,6 +18,7 @@ async function createSpreadSheet(name: string): Promise<SpreadSheetEntity> {
   return {
     id: spreadsheet.id,
     name: spreadsheet.name,
+    content_id: content.id,
     createdAt: spreadsheet.createdAt.toString(),
     updatedAt: spreadsheet.updatedAt.toString(),
   };
@@ -42,13 +43,11 @@ async function findSpreadSheetById(id: string): Promise<SpreadSheetEntity> {
 async function updateSpreadSheetById(
   spreadsheetId: string,
   name: string
-): Promise<boolean> {
-  await PostgresClient.spreadSheet.update({
+): Promise<SpreadSheetEntity> {
+  return PostgresClient.spreadSheet.update({
     data: { updatedAt: new Date(), name: name },
     where: { id: spreadsheetId },
   });
-
-  return true;
 }
 
 async function destroySpreadSheetById(id: string): Promise<boolean> {

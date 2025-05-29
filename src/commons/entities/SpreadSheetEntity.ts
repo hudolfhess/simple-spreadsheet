@@ -5,5 +5,6 @@ export interface SpreadSheetEntity {
   name: string;
   updatedAt: string;
   createdAt: string;
+  content_id?: string;
   content?: SpreadSheetContentEntity;
 }
