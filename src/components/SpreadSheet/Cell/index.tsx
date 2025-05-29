@@ -19,6 +19,7 @@ function Cell(props: { row: number; column: number }) {
     if (cellValue != value) setValue(cellValue);
     if ((cellFormula || cellValue) != editValue)
       setEditValue(cellFormula || cellValue || "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cellValue, cellFormula]);
 
   useEffect(() => {
@@ -27,7 +28,6 @@ function Cell(props: { row: number; column: number }) {
 
   const handleDoubleClick = () => {
     setEditionMode(true);
-    // setSelectedCell({ row: -1, column: -1 });
   };
 
   const handleOnClick = () => {
@@ -39,7 +39,6 @@ function Cell(props: { row: number; column: number }) {
     setValue(value);
     setEditionMode(false);
     setSelected(false);
-    // setSelectedCell({ row: -1, column: -1 });
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -79,7 +78,7 @@ function Cell(props: { row: number; column: number }) {
   };
 
   const cellStyles = function (): string {
-    const styles = [];
+    const styles: string[] = [];
 
     cellFormat.forEach((format) => {
       if (

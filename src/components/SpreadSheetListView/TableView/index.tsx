@@ -5,7 +5,7 @@ import { SpreadSheetEntity } from "@/commons/entities/SpreadSheetEntity";
 import DeleteSVG from "@/components/commons/Icons/DeleteSVG";
 import Image from "next/image";
 
-export default function GridView({
+export default function TableView({
   spreadsheets,
   onDelete,
 }: {
@@ -31,7 +31,10 @@ export default function GridView({
                 Last update: {spreadsheet.updatedAt}
               </div>
             </div>
-            <button className="btn btn-square btn-ghost">
+            <button
+              className="btn btn-square btn-ghost"
+              onClick={() => onDelete(spreadsheet.id)}
+            >
               <DeleteSVG />
             </button>
           </li>

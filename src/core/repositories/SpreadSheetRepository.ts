@@ -8,15 +8,19 @@ async function createSpreadSheet(name: string): Promise<SpreadSheetEntity> {
     data: { name: name },
   });
 
-  const spreadsheetContent = await MongoClient.spreadSheetContent.create({
+  await MongoClient.spreadSheetContent.create({
     data: {
       spreadsheetId: spreadsheet.id,
       content: JSON.stringify({}),
     },
   });
 
-  spreadsheet.content = spreadsheetContent;
-  return spreadsheet;
+  return {
+    id: spreadsheet.id,
+    name: spreadsheet.name,
+    createdAt: spreadsheet.createdAt.toString(),
+    updatedAt: spreadsheet.updatedAt.toString(),
+  };
 }
 
 async function findSpreadSheetById(id: string): Promise<SpreadSheetEntity> {
@@ -24,7 +28,13 @@ async function findSpreadSheetById(id: string): Promise<SpreadSheetEntity> {
     where: { id: id },
   });
 
-  if (spreadsheet) return spreadsheet;
+  if (spreadsheet)
+    return {
+      id: spreadsheet.id,
+      name: spreadsheet.name,
+      createdAt: spreadsheet.createdAt.toString(),
+      updatedAt: spreadsheet.updatedAt.toString(),
+    };
 
   throw new SpreadsheetNotFoundError(id);
 }
@@ -33,10 +43,12 @@ async function updateSpreadSheetById(
   spreadsheetId: string,
   name: string
 ): Promise<boolean> {
-  return await PostgresClient.spreadSheet.update({
+  await PostgresClient.spreadSheet.update({
     data: { updatedAt: new Date(), name: name },
     where: { id: spreadsheetId },
   });
+
+  return true;
 }
 
 async function destroySpreadSheetById(id: string): Promise<boolean> {
@@ -58,11 +70,11 @@ async function loadSpreadSheetContentFrom(
     where: { spreadsheetId: spreadsheetId },
   });
 
-  if (!spreadsheetContent) {
+  if (!spreadsheetContent || spreadsheetContent.content === null) {
     return {};
   }
 
-  return JSON.parse(spreadsheetContent.content);
+  return JSON.parse(spreadsheetContent.content as string);
 }
 
 async function updateSpreadSheetContent(
@@ -85,7 +97,7 @@ async function updateSpreadSheetContent(
 }
 
 async function getSpreadSheets(search?: string): Promise<SpreadSheetEntity[]> {
-  return await PostgresClient.spreadSheet.findMany({
+  const spreadSheets = await PostgresClient.spreadSheet.findMany({
     where: search
       ? {
           name: {
@@ -97,6 +109,15 @@ async function getSpreadSheets(search?: string): Promise<SpreadSheetEntity[]> {
     orderBy: {
       updatedAt: "desc",
     },
+  });
+
+  return spreadSheets.map((spreadsheet) => {
+    return {
+      id: spreadsheet.id,
+      name: spreadsheet.name,
+      createdAt: spreadsheet.createdAt.toString(),
+      updatedAt: spreadsheet.updatedAt.toString(),
+    };
   });
 }
 
