@@ -44,10 +44,17 @@ async function updateSpreadSheetById(
   spreadsheetId: string,
   name: string
 ): Promise<SpreadSheetEntity> {
-  return PostgresClient.spreadSheet.update({
+  const spreadsheet = PostgresClient.spreadSheet.update({
     data: { updatedAt: new Date(), name: name },
     where: { id: spreadsheetId },
   });
+
+  return {
+    id: spreadsheet.id,
+    name: spreadsheet.name,
+    createdAt: spreadsheet.createdAt.toString(),
+    updatedAt: spreadsheet.updatedAt.toString(),
+  };
 }
 
 async function destroySpreadSheetById(id: string): Promise<boolean> {
